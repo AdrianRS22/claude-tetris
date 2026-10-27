@@ -69,7 +69,7 @@ jobs:
                Si es un re-análisis (el issue fue editado), quita con `--remove-label` los labels del set que ya no apliquen. No toques labels que no pertenezcan al set.
             4. Publica el diagnóstico en UN SOLO comentario, reemplazando el anterior si existe:
                `gh issue comment ${{ github.event.issue.number }} --edit-last --create-if-none --body "..."`
-               El comentario debe comenzar con `<!-- claude-triage -->` y estar en español, con esta estructura:
+               El comentario debe comenzar con `<!-- claude-triage -->`, estar en español y estar escrito en formato Markdown compatible con GitHub (GitHub Flavored Markdown: encabezados, listas, negritas, bloques de código con triple acento grave y lenguaje, tablas, etc.) para que se renderice correctamente en el issue. Usa esta estructura:
                ## 🤖 Diagnóstico de Claude
                - **Resumen**: qué se reporta o pide.
                - **Clasificación**: labels elegidos y justificación breve.
