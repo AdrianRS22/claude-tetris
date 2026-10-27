@@ -19,7 +19,26 @@ body {
   position: relative;
 }
 
+.game-title {
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 40px;
+  font-weight: 900;
+  letter-spacing: 6px;
+  margin-bottom: 16px;
+  text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.6);
+}
+
+.game-title .c0 { color: #f7768e; }
+.game-title .c1 { color: #ff9e64; }
+.game-title .c2 { color: #e0af68; }
+.game-title .c3 { color: #9ece6a; }
+.game-title .c4 { color: #7dcfff; }
+.game-title .c5 { color: #7aa2f7; }
+.game-title .c6 { color: #bb9af7; }
+
 .game-container {
+  position: relative;
   display: flex;
   gap: 20px;
   align-items: flex-start;

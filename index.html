@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tetris</title>
+  <title>Claude Tetris</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="wrapper">
+    <h1 class="game-title" aria-label="Claude Tetris"><span class="c0">C</span><span class="c1">L</span><span class="c2">A</span><span class="c3">U</span><span class="c4">D</span><span class="c5">E</span> <span class="c6">T</span><span class="c0">E</span><span class="c1">T</span><span class="c2">R</span><span class="c3">I</span><span class="c4">S</span></h1>
     <div class="game-container">
       <canvas id="board" width="300" height="600"></canvas>
 
@@ -41,13 +42,13 @@
           </ul>
         </div>
       </aside>
-    </div>
 
-    <div id="overlay" class="overlay hidden">
-      <div class="overlay-box">
-        <p id="overlay-title">GAME OVER</p>
-        <p id="overlay-score"></p>
-        <button id="restart-btn">Reiniciar</button>
+      <div id="overlay" class="overlay hidden">
+        <div class="overlay-box">
+          <p id="overlay-title">GAME OVER</p>
+          <p id="overlay-score"></p>
+          <button id="restart-btn">Reiniciar</button>
+        </div>
       </div>
     </div>
   </div>
