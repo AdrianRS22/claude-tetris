@@ -39,6 +39,9 @@ const overlay = document.getElementById('overlay');
 const overlayTitle = document.getElementById('overlay-title');
 const overlayScore = document.getElementById('overlay-score');
 const restartBtn = document.getElementById('restart-btn');
+const themeToggle = document.getElementById('theme-toggle');
+
+let gridColor = '#22222e';
 
 let board, current, next, score, lines, level, paused, gameOver, lastTime, dropAccum, dropInterval, animId;
 
@@ -169,7 +172,7 @@ function drawBlock(context, x, y, colorIndex, size, alpha) {
 }
 
 function drawGrid() {
-  ctx.strokeStyle = '#22222e';
+  ctx.strokeStyle = gridColor;
   ctx.lineWidth = 0.5;
   for (let c = 1; c < COLS; c++) {
     ctx.beginPath();
@@ -300,5 +303,18 @@ document.addEventListener('keydown', e => {
 });
 
 restartBtn.addEventListener('click', init);
+
+themeToggle.addEventListener('click', () => {
+  const root = document.documentElement;
+  const light = root.dataset.theme !== 'light';
+  if (light) root.dataset.theme = 'light';
+  else delete root.dataset.theme;
+  themeToggle.setAttribute('aria-checked', String(light));
+  themeToggle.textContent = light ? '☀️' : '🌙';
+  gridColor = getComputedStyle(root).getPropertyValue('--grid').trim();
+  themeToggle.blur(); // evita que el botón capture Space/P
+  draw();
+  drawNext();
+});
 
 init();
