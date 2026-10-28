@@ -351,6 +351,7 @@ function togglePause() {
   paused = !paused;
   if (!paused) {
     closePauseMenu();
+    ignoreRepeat = true;
     lastTime = performance.now();
     loop(lastTime);
   } else {
@@ -365,7 +366,6 @@ function closePauseMenu() {
   pauseControls.classList.add('hidden');
   controlsBtn.setAttribute('aria-expanded', 'false');
   if (document.activeElement) document.activeElement.blur();
-  ignoreRepeat = true;
 }
 
 function loop(ts) {
@@ -414,6 +414,7 @@ function init() {
 
 document.addEventListener('keydown', e => {
   if (e.code === 'KeyP' || e.code === 'Escape') {
+    if (e.target === startLevelSelect) return; // el select usa Esc/letras
     if (!e.repeat) togglePause();
     return;
   }
