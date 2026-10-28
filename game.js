@@ -133,13 +133,25 @@ function submitRecord() {
   try { localStorage.setItem(NAME_KEY, name); } catch (e) { /* ignorar */ }
   const data = loadRecords();
   const entry = { name, score, lines, combo: maxCombo };
-  data.scores.push(entry);
+  // Nombre único (sin distinguir mayúsculas): se conserva solo la mejor puntuación.
+  const dup = data.scores.findIndex(r => r.name.toLowerCase() === name.toLowerCase());
+  let kept = true;
+  if (dup !== -1) {
+    if (score > data.scores[dup].score) data.scores[dup] = entry;
+    else kept = false;
+  } else {
+    data.scores.push(entry);
+  }
   data.scores.sort((a, b) => b.score - a.score);
   data.scores = data.scores.slice(0, MAX_RECORDS);
   saveRecords(data);
   recordForm.classList.add('hidden');
-  recordMsg.classList.add('hidden');
-  renderRecords(data.scores.indexOf(entry));
+  if (kept) recordMsg.classList.add('hidden');
+  else {
+    recordMsg.textContent = `"${name}" ya tiene un record mayor`;
+    recordMsg.classList.remove('hidden');
+  }
+  renderRecords(kept ? data.scores.indexOf(entry) : -1);
 }
 
 function showStart() {
