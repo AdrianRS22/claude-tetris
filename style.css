@@ -246,3 +246,117 @@ kbd {
 #restart-btn:hover {
   background: var(--accent-hover);
 }
+
+/* ---- Records ---- */
+.hidden {
+  display: none !important;
+}
+
+#record-msg {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--c3);
+  letter-spacing: 1px;
+}
+
+#record-form {
+  display: flex;
+  gap: 6px;
+}
+
+#player-name {
+  width: 140px;
+  background: var(--kbd-bg);
+  border: 1px solid var(--kbd-border);
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 13px;
+  color: var(--text);
+  user-select: text;
+}
+
+#player-name:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+#save-record {
+  background: var(--accent);
+  color: var(--accent-text);
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#records {
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: stretch;
+}
+
+#records-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+}
+
+#records-list li {
+  display: grid;
+  grid-template-columns: 22px 1fr auto 44px;
+  gap: 6px;
+  padding: 3px 6px;
+  border-radius: 3px;
+  color: var(--text);
+}
+
+#records-list li span:nth-child(2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#records-list li span:nth-child(3),
+#records-list li span:nth-child(4) {
+  text-align: right;
+}
+
+#records-list li.current {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+#records-list li.empty {
+  display: block;
+  text-align: center;
+  color: var(--muted);
+}
+
+#records-stats {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+}
+
+#reset-records {
+  align-self: center;
+  background: none;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  border-radius: 4px;
+  padding: 3px 10px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+#reset-records:hover {
+  background: var(--danger);
+  color: var(--accent-text);
+}
