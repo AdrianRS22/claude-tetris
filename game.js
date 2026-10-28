@@ -4,23 +4,122 @@ const COLS = 10;
 const ROWS = 20;
 const BLOCK = 30;
 
-const COLORS = [
+// Orden de colores: null, I, O, T, S, Z, J, L, N, comodín, bomba, rayo, tinte, gravedad, congelar
+const RETRO_COLORS = [
   null,
-  '#4dd0e1', // I - cyan
-  '#ffd54f', // O - yellow
-  '#ba68c8', // T - purple
-  '#81c784', // S - green
-  '#e57373', // Z - red
-  '#90caf9', // J - pale blue
-  '#ffb74d', // L - orange
+  '#4dd0e1', '#ffd54f', '#ba68c8', '#81c784', '#e57373', '#90caf9', '#ffb74d',
   '#b0bec5', // N - tuerca (gris acero)
   '#ffffff', // 9 - comodín (tinte)
-  '#ff7043', // 10 - bomba
-  '#ffee58', // 11 - rayo
-  '#f06292', // 12 - tinte
-  '#a1887f', // 13 - gravedad
-  '#4fc3f7', // 14 - congelar
+  '#ff7043', '#ffee58', '#f06292', '#a1887f', '#4fc3f7',
 ];
+
+const NEON_COLORS = [
+  null,
+  '#00f0ff', '#fff200', '#d500f9', '#39ff14', '#ff1744', '#2979ff', '#ff9100',
+  '#cfd8dc',
+  '#ffffff',
+  '#ff6d00', '#ffea00', '#ff4081', '#bcaaa4', '#40c4ff',
+];
+
+const PASTEL_COLORS = [
+  null,
+  '#b5ead7', '#fdfd96', '#d7bde2', '#c7f0bd', '#ffb3ba', '#bae1ff', '#ffdfba',
+  '#d9dde0',
+  '#fffafa',
+  '#ffc9b5', '#fff5ba', '#ffc8dd', '#e0cfc4', '#c4ecfa',
+];
+
+const PIXEL_COLORS = [
+  null,
+  '#00bcd4', '#fcc800', '#9c27b0', '#4caf50', '#e53935', '#3f6fd8', '#fb8c00',
+  '#90a4ae',
+  '#f5f5f5',
+  '#ff5722', '#fdd835', '#ec407a', '#8d6e63', '#29b6f6',
+];
+
+function roundedRectPath(context, x, y, w, h, r) {
+  context.beginPath();
+  context.moveTo(x + r, y);
+  context.arcTo(x + w, y, x + w, y + h, r);
+  context.arcTo(x + w, y + h, x, y + h, r);
+  context.arcTo(x, y + h, x, y, r);
+  context.arcTo(x, y, x + w, y, r);
+  context.closePath();
+}
+
+// Cada skin define su paleta, fondo/rejilla (null = los del tema CSS) y cómo se pinta una celda.
+const SKINS = {
+  retro: {
+    colors: RETRO_COLORS,
+    bg: null,
+    grid: null,
+    cell(context, px, py, size, color) {
+      context.fillStyle = color;
+      context.fillRect(px + 1, py + 1, size - 2, size - 2);
+      context.fillStyle = 'rgba(255,255,255,0.12)';
+      context.fillRect(px + 1, py + 1, size - 2, 4);
+    },
+  },
+  neon: {
+    colors: NEON_COLORS,
+    bg: '#000',
+    grid: '#16162a',
+    cell(context, px, py, size, color) {
+      context.shadowColor = color;
+      context.shadowBlur = size * 0.45;
+      context.fillStyle = color + '55';
+      context.fillRect(px + 3, py + 3, size - 6, size - 6);
+      context.strokeStyle = color;
+      context.lineWidth = 2;
+      context.strokeRect(px + 3, py + 3, size - 6, size - 6);
+      context.shadowBlur = 0;
+      context.shadowColor = 'transparent';
+    },
+  },
+  pastel: {
+    colors: PASTEL_COLORS,
+    bg: null,
+    grid: null,
+    cell(context, px, py, size, color) {
+      roundedRectPath(context, px + 1.5, py + 1.5, size - 3, size - 3, size * 0.3);
+      context.fillStyle = color;
+      context.fill();
+      context.strokeStyle = 'rgba(255,255,255,0.65)';
+      context.lineWidth = 1.5;
+      context.stroke();
+    },
+  },
+  pixel: {
+    colors: PIXEL_COLORS,
+    bg: null,
+    grid: null,
+    cell(context, px, py, size, color) {
+      const x = px + 1, y = py + 1, s = size - 2;
+      const t = Math.max(2, Math.floor(s / 6)); // tamaño del "píxel" de la textura
+      context.fillStyle = color;
+      context.fillRect(x, y, s, s);
+      // textura: damero de mini-píxeles claros y oscuros
+      for (let i = 1; i < 5; i++) {
+        for (let j = 1; j < 5; j++) {
+          if ((i + j) % 2) continue;
+          context.fillStyle = (i + j) % 4 === 0 ? 'rgba(255,255,255,0.22)' : 'rgba(0,0,0,0.18)';
+          context.fillRect(x + i * t, y + j * t, t, t);
+        }
+      }
+      // biselado: luz arriba/izquierda, sombra abajo/derecha
+      context.fillStyle = 'rgba(255,255,255,0.45)';
+      context.fillRect(x, y, s, t / 2 + 1);
+      context.fillRect(x, y, t / 2 + 1, s);
+      context.fillStyle = 'rgba(0,0,0,0.45)';
+      context.fillRect(x, y + s - t / 2 - 1, s, t / 2 + 1);
+      context.fillRect(x + s - t / 2 - 1, y, t / 2 + 1, s);
+    },
+  },
+};
+
+const SKIN_KEY = 'tetris-skin';
+let skin = SKINS.retro;
+let COLORS = skin.colors;
 
 const WILD = 9;
 const POWERUPS = [
@@ -60,6 +159,7 @@ const overlayTitle = document.getElementById('overlay-title');
 const overlayScore = document.getElementById('overlay-score');
 const restartBtn = document.getElementById('restart-btn');
 const themeToggle = document.getElementById('theme-toggle');
+const skinSelect = document.getElementById('skin-select');
 
 let gridColor = '#22222e';
 
@@ -242,11 +342,7 @@ function drawBlock(context, x, y, colorIndex, size, alpha) {
   if (!colorIndex) return;
   const color = COLORS[colorIndex];
   context.globalAlpha = alpha ?? 1;
-  context.fillStyle = color;
-  context.fillRect(x * size + 1, y * size + 1, size - 2, size - 2);
-  // highlight
-  context.fillStyle = 'rgba(255,255,255,0.12)';
-  context.fillRect(x * size + 1, y * size + 1, size - 2, 4);
+  skin.cell(context, x * size, y * size, size, color);
   if (colorIndex === WILD) {
     context.strokeStyle = '#ab47bc';
     context.lineWidth = 2;
@@ -259,6 +355,26 @@ function drawBlock(context, x, y, colorIndex, size, alpha) {
     context.fillText(POWERUPS[colorIndex - POWERUP_BASE].icon, x * size + size / 2, y * size + size / 2 + 1);
   }
   context.globalAlpha = 1;
+}
+
+function refreshGridColor() {
+  gridColor = skin.grid || getComputedStyle(document.documentElement).getPropertyValue('--grid').trim();
+}
+
+function applySkin(name) {
+  if (!SKINS[name]) name = 'retro';
+  skin = SKINS[name];
+  COLORS = skin.colors;
+  document.documentElement.dataset.skin = name;
+  canvas.style.background = skin.bg || '';
+  nextCanvas.style.background = skin.bg || '';
+  skinSelect.value = name;
+  refreshGridColor();
+  try { localStorage.setItem(SKIN_KEY, name); } catch (e) { /* sin persistencia */ }
+  if (board) {
+    draw();
+    drawNext();
+  }
 }
 
 function drawGrid() {
@@ -423,10 +539,18 @@ themeToggle.addEventListener('click', () => {
   else delete root.dataset.theme;
   themeToggle.setAttribute('aria-checked', String(light));
   themeToggle.textContent = light ? '☀️' : '🌙';
-  gridColor = getComputedStyle(root).getPropertyValue('--grid').trim();
+  refreshGridColor();
   themeToggle.blur(); // evita que el botón capture Space/P
   draw();
   drawNext();
 });
 
+skinSelect.addEventListener('change', () => {
+  applySkin(skinSelect.value);
+  skinSelect.blur(); // evita que las flechas/Space sigan cambiando el select
+});
+
+let savedSkin = 'retro';
+try { savedSkin = localStorage.getItem(SKIN_KEY) || 'retro'; } catch (e) { /* sin persistencia */ }
+applySkin(savedSkin);
 init();

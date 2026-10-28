@@ -114,6 +114,25 @@ body {
   border-color: var(--accent);
 }
 
+#skin-select {
+  background: var(--toggle-bg);
+  border: 1px solid var(--toggle-border);
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 13px;
+  color: var(--text);
+  cursor: pointer;
+}
+
+#skin-select:hover {
+  border-color: var(--accent);
+}
+
+html[data-skin="neon"] #board {
+  border-color: var(--accent);
+  box-shadow: 0 0 24px var(--accent);
+}
+
 .game-container {
   position: relative;
   display: flex;
