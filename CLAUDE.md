@@ -11,7 +11,7 @@ Vanilla JS Tetris (HTML5 Canvas). No `package.json`, no build, no tests, no lint
 Three files: `index.html` (DOM + two canvases), `style.css`, and `game.js` (all logic, one script loaded with `'use strict'`, global state, no modules).
 
 - State lives in top-level `let` variables in `game.js` (`board`, `current`, `next`, `score`, `lines`, `level`, `paused`, `gameOver`, `dropInterval`, ...). `init()` resets everything and is also the restart handler.
-- Board is a `ROWS × COLS` matrix of `0` or a piece-type index 1–8; the same index selects the entry in `COLORS` and `PIECES` (index 0 is `null` in both).
+- Board is a `ROWS × COLS` matrix of `0` or a piece-type index 1–8; the same index selects the entry in `skin.colors` (from `SKINS`) and `PIECES` (index 0 is `null` in both). Each skin also provides `cell()`, the per-block draw function called from `drawBlock`; `applySkin(key)` switches skins live and persists the choice in `localStorage`.
 - Piece lifecycle: `lockPiece()` = `merge()` → `clearLines()` → `spawn()`. `spawn()` promotes `next` to `current` and calls `endGame()` if it collides immediately.
 - Gravity is in `loop()` (requestAnimationFrame + `dropAccum`); player input is a single `keydown` listener. Both paths call `lockPiece()`, so lock behavior changes must cover `loop`, `softDrop`, and `hardDrop`.
 - `endGame()` and pausing use `cancelAnimationFrame(animId)`; resuming/restarting restarts the loop manually.
