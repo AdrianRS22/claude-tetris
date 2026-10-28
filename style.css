@@ -48,6 +48,17 @@ html[data-theme="light"] {
   --c4: #0b8aa8; --c5: #3d5fc4; --c6: #7e4fd0;
 }
 
+html[data-skin="neon"] {
+  --canvas-bg: #000000;
+  --canvas-border: #1f1f3a;
+  --grid: #0d0d1a;
+}
+
+html[data-skin="neon"] #board,
+html[data-skin="neon"] #next-canvas {
+  box-shadow: 0 0 24px rgba(0, 240, 255, 0.25);
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -111,6 +122,20 @@ body {
 }
 
 #theme-toggle:hover {
+  border-color: var(--accent);
+}
+
+#skin-select {
+  background: var(--toggle-bg);
+  border: 1px solid var(--toggle-border);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 13px;
+  color: var(--text);
+  cursor: pointer;
+}
+
+#skin-select:hover {
   border-color: var(--accent);
 }
 
