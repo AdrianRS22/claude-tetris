@@ -51,7 +51,18 @@
         <div class="overlay-box">
           <p id="overlay-title">GAME OVER</p>
           <p id="overlay-score"></p>
-          <button id="restart-btn">Reiniciar</button>
+          <p id="record-msg" class="hidden"></p>
+          <form id="record-form" class="hidden" autocomplete="off">
+            <input id="player-name" type="text" maxlength="12" placeholder="Tu nombre" aria-label="Nombre del jugador" />
+            <button type="submit" id="save-record">Guardar</button>
+          </form>
+          <section id="records">
+            <span class="label">RECORDS</span>
+            <ol id="records-list"></ol>
+            <p id="records-stats"></p>
+            <button id="reset-records" type="button">Borrar records</button>
+          </section>
+          <button id="restart-btn">Jugar</button>
         </div>
       </div>
 
