@@ -229,7 +229,7 @@ kbd {
   color: var(--value);
 }
 
-#restart-btn {
+#restart-btn, .menu-buttons button {
   margin-top: 8px;
   background: var(--accent);
   color: var(--accent-text);
@@ -243,6 +243,66 @@ kbd {
   transition: background 0.15s;
 }
 
-#restart-btn:hover {
+#restart-btn:hover, .menu-buttons button:hover, .menu-buttons button:focus-visible {
   background: var(--accent-hover);
+}
+
+/* ---- Menú de pausa ---- */
+.hidden { display: none; }
+
+.menu-box { gap: 16px; }
+
+.menu-title {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: var(--accent);
+}
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+  min-width: 190px;
+}
+
+.menu-buttons button { margin-top: 0; }
+
+.menu-level {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.menu-level select {
+  background: var(--kbd-bg);
+  border: 1px solid var(--kbd-border);
+  color: var(--text);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 13px;
+}
+
+.menu-hint {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.menu-keys {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.menu-keys li {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
