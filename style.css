@@ -246,3 +246,112 @@ kbd {
 #restart-btn:hover {
   background: var(--accent-hover);
 }
+
+/* ---- Récords ---- */
+.hidden {
+  display: none !important;
+}
+
+.records {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.records ol {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.records li {
+  display: grid;
+  grid-template-columns: 22px 1fr auto auto auto;
+  gap: 8px;
+  align-items: center;
+  padding: 3px 6px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.records li.empty {
+  display: block;
+  text-align: center;
+}
+
+.records li .rs {
+  color: var(--value);
+  font-weight: 700;
+}
+
+.records li.highlight {
+  background: var(--kbd-bg);
+  border-color: var(--accent);
+  color: var(--text);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% { border-color: transparent; }
+}
+
+.records-bests {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.records-bests b {
+  color: var(--value);
+}
+
+#new-record {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+#name-form {
+  display: flex;
+  gap: 6px;
+}
+
+#name-input {
+  width: 150px;
+  background: var(--kbd-bg);
+  border: 1px solid var(--kbd-border);
+  border-radius: 4px;
+  padding: 6px 8px;
+  color: var(--text);
+  font-size: 13px;
+  user-select: text;
+}
+
+#name-form button {
+  background: var(--accent);
+  color: var(--accent-text);
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 11px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link-btn:hover {
+  color: var(--danger);
+}

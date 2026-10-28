@@ -51,7 +51,18 @@
         <div class="overlay-box">
           <p id="overlay-title">GAME OVER</p>
           <p id="overlay-score"></p>
-          <button id="restart-btn">Reiniciar</button>
+          <p id="new-record" class="hidden">¡Nuevo récord! #1</p>
+          <form id="name-form" class="hidden">
+            <input id="name-input" maxlength="12" placeholder="Tu nombre" autocomplete="off" />
+            <button type="submit">Guardar</button>
+          </form>
+          <div id="records" class="records">
+            <span class="label">RÉCORDS</span>
+            <ol id="records-list"></ol>
+            <p class="records-bests">Mejor combo <b id="best-combo">x0</b> · Líneas máx. <b id="best-lines">0</b></p>
+          </div>
+          <button id="restart-btn">Jugar</button>
+          <button id="reset-records-btn" class="link-btn" type="button">Borrar récords</button>
         </div>
       </div>
     </div>
